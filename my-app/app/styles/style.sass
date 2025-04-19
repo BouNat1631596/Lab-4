@@ -1,0 +1,157 @@
+// Variables
+$desktop-breakpoint: 992px
+$heading-font: 'Lora', serif
+$body-font: 'Open Sans', sans-serif
+
+// Couleurs
+$dark-primary: #222831    
+$dark-secondary: #393E46  
+$accent: #00ADB5        
+$light: #EEEEEE         
+
+// Bootstrap overrides
+$primary: $accent
+$dark: $dark-primary
+$secondary: $dark-secondary
+$light: $light
+
+.mainBody
+    background-color: $dark-primary
+.csHeaderFooter
+    background-color: $dark-secondary
+.cardcss
+    background-color: $dark-secondary
+.textcss
+    color: $light
+
+// Typographie
+h1, h2, h3, h4, h5, h6
+    font-family: $heading-font
+    font-weight: 700
+
+body
+    font-family: $body-font
+    background-color: $dark-primary!important
+
+.mainMenu
+    font-size: 4rem
+
+// Utility classes
+.bg-dark-primary
+    background-color: $dark-primary
+  
+.bg-dark-secondary
+    background-color: $dark-secondary
+  
+.text-accent
+    color: $accent
+
+// Image principale
+.blog-main-image 
+    padding: 0.5rem
+    height: 200px
+    width: 100%
+    object-fit: cover
+
+
+.blog-main-image-container 
+    max-width: 300px
+    margin: 0 auto
+
+
+
+.card-link
+    text-decoration: none
+    display: block
+    
+    &:hover
+        .blog-card
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)
+
+
+.blog-card
+    background-color: $light
+    border: none
+    border-radius: 0.3rem
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)
+    height: 100%
+    transition: all 0.3s ease
+    
+    &__image
+        padding: 1rem
+        max-height: 200px
+        object-fit: cover
+    
+    &__title-wrapper
+        padding: 0 1.5rem 0.5rem
+    
+    &__title
+        background-color: $dark-primary
+        color: $light
+        padding: 0.5rem
+        border-radius: 0.25rem
+        
+    &__body
+        padding: 1.5rem
+        
+    &__text
+        color: $dark-secondary
+        margin: 0
+
+    &:hover
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)
+
+.form-container
+    max-width: 800px
+    margin: 2rem auto
+    padding: 2rem
+    background-color: $dark-secondary
+    border-radius: 0.3rem
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)
+
+.form-group
+    margin: 20px 0
+
+    label
+        display: block
+        margin-bottom: 10px
+        color: $light
+        font-family: $heading-font
+        font-weight: 600
+
+    input[type="text"], textarea
+        width: 100%
+        padding: 12px
+        border: none
+        border-radius: 0.25rem
+        background-color: $light
+        color: $dark-primary
+        font-family: $body-font
+
+    textarea
+        height: 200px
+        resize: vertical
+
+button[type="submit"]
+    background-color: $accent
+    color: $light
+    padding: 12px 24px
+    border: none
+    border-radius: 0.25rem
+    cursor: pointer
+    font-family: $heading-font
+    font-weight: 600
+    transition: all 0.3s ease
+
+    &:hover
+        background-color: darken($accent, 10%)
+
+.form-title
+    color: $light
+    text-align: center
+    font-family: $heading-font
+    margin-bottom: 2rem
+.text-accent
+    color: $accent  
+// Import Bootstrap
+@import "./node_modules/bootstrap/scss/bootstrap"

@@ -1,0 +1,294 @@
+import {
+  saveBlogToIndexedDB,
+  getBlogFromIndexedDB,
+  getAllBlogsFromIndexedDB,
+  deleteBlogFromIndexedDB,
+  saveCommentToIndexedDB,
+  getCommentFromIndexedDB,
+  getBlogCommentsFromIndexedDB,
+  deleteCommentFromIndexedDB
+} from '@/utils/indexedDB';
+
+// Fonction pour vérifier la connexion Internet
+function isOnline() {
+  return navigator.onLine;
+}
+
+// API pour les blogs
+export const blogsAPI = {
+  // Récupérer tous les blogs
+  async getAll() {
+    try {
+      // Essayer d'abord de récupérer depuis le serveur
+      if (isOnline()) {
+        const response = await fetch('/api/blogs');
+        if (response.ok) {
+          const blogs = await response.json();
+          
+          // Sauvegarder dans IndexedDB
+          blogs.forEach(blog => saveBlogToIndexedDB(blog));
+          
+          return blogs;
+        }
+      }
+      
+      // Si hors ligne ou erreur serveur, utiliser IndexedDB
+      console.log('Récupération des blogs depuis IndexedDB');
+      return await getAllBlogsFromIndexedDB();
+    } catch (error) {
+      console.error('Erreur lors de la récupération des blogs:', error);
+      
+      // En cas d'erreur, essayer IndexedDB
+      return await getAllBlogsFromIndexedDB();
+    }
+  },
+  
+  // Récupérer un blog par son ID
+  async getById(id) {
+    try {
+      // Essayer d'abord de récupérer depuis le serveur
+      if (isOnline()) {
+        const response = await fetch(`/api/blogs/${id}`);
+        if (response.ok) {
+          const blog = await response.json();
+          
+          // Sauvegarder dans IndexedDB
+          await saveBlogToIndexedDB(blog);
+          
+          return blog;
+        }
+      }
+      
+      // Si hors ligne ou erreur serveur, utiliser IndexedDB
+      console.log(`Récupération du blog ${id} depuis IndexedDB`);
+      return await getBlogFromIndexedDB(id);
+    } catch (error) {
+      console.error(`Erreur lors de la récupération du blog ${id}:`, error);
+      
+      // En cas d'erreur, essayer IndexedDB
+      return await getBlogFromIndexedDB(id);
+    }
+  },
+  
+  // Créer un nouveau blog
+  async create(blogData) {
+    try {
+      if (isOnline()) {
+        const response = await fetch('/api/blogs', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(blogData),
+        });
+        
+        if (response.ok) {
+          const newBlog = await response.json();
+          
+          // Sauvegarder dans IndexedDB
+          await saveBlogToIndexedDB(newBlog);
+          
+          return newBlog;
+        }
+      }
+      
+      // Si hors ligne, stocker temporairement dans IndexedDB
+      // avec un flag pour synchroniser plus tard
+      const tempBlog = {
+        ...blogData,
+        id: `temp_${Date.now()}`,
+        _needsSync: true,
+        _syncAction: 'create'
+      };
+      
+      await saveBlogToIndexedDB(tempBlog);
+      return tempBlog;
+    } catch (error) {
+      console.error('Erreur lors de la création du blog:', error);
+      throw error;
+    }
+  },
+  
+  // Mettre à jour un blog
+  async update(id, blogData) {
+    try {
+      if (isOnline()) {
+        const response = await fetch(`/api/blogs/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(blogData),
+        });
+        
+        if (response.ok) {
+          const updatedBlog = await response.json();
+          
+          // Sauvegarder dans IndexedDB
+          await saveBlogToIndexedDB(updatedBlog);
+          
+          return updatedBlog;
+        }
+      }
+      
+      // Si hors ligne, mettre à jour dans IndexedDB
+      // avec un flag pour synchroniser plus tard
+      const existingBlog = await getBlogFromIndexedDB(id);
+      if (existingBlog) {
+        const updatedBlog = {
+          ...existingBlog,
+          ...blogData,
+          _needsSync: true,
+          _syncAction: 'update'
+        };
+        
+        await saveBlogToIndexedDB(updatedBlog);
+        return updatedBlog;
+      }
+      
+      throw new Error('Blog non trouvé dans IndexedDB');
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour du blog ${id}:`, error);
+      throw error;
+    }
+  },
+  
+  // Supprimer un blog
+  async delete(id) {
+    try {
+      if (isOnline()) {
+        const response = await fetch(`/api/blogs/${id}`, {
+          method: 'DELETE',
+        });
+        
+        if (response.ok) {
+          // Supprimer de IndexedDB
+          await deleteBlogFromIndexedDB(id);
+          return true;
+        }
+      }
+      
+      // Si hors ligne, marquer pour suppression dans IndexedDB
+      const existingBlog = await getBlogFromIndexedDB(id);
+      if (existingBlog) {
+        const markedBlog = {
+          ...existingBlog,
+          _needsSync: true,
+          _syncAction: 'delete'
+        };
+        
+        await saveBlogToIndexedDB(markedBlog);
+        return true;
+      }
+      
+      return false;
+    } catch (error) {
+      console.error(`Erreur lors de la suppression du blog ${id}:`, error);
+      throw error;
+    }
+  }
+};
+
+// API pour les commentaires
+export const commentsAPI = {
+  // Récupérer tous les commentaires d'un blog
+  async getByBlogId(blogId) {
+    try {
+      if (isOnline()) {
+        const response = await fetch(`/api/commentaires/blog/${blogId}`);
+        if (response.ok) {
+          const comments = await response.json();
+          
+          // Sauvegarder dans IndexedDB
+          comments.forEach(comment => saveCommentToIndexedDB(comment));
+          
+          return comments;
+        }
+      }
+      
+      // Si hors ligne ou erreur serveur, utiliser IndexedDB
+      console.log(`Récupération des commentaires du blog ${blogId} depuis IndexedDB`);
+      return await getBlogCommentsFromIndexedDB(blogId);
+    } catch (error) {
+      console.error(`Erreur lors de la récupération des commentaires du blog ${blogId}:`, error);
+      
+      // En cas d'erreur, essayer IndexedDB
+      return await getBlogCommentsFromIndexedDB();
+    }
+  },
+  
+  // Créer un nouveau commentaire
+  async create(commentData) {
+    try {
+      if (isOnline()) {        
+        const response = await fetch('/api/commentaires', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(commentData),
+        });
+        
+        if (response.ok) {
+          const newComment = await response.json();
+          
+          // Sauvegarder dans IndexedDB
+          await saveCommentToIndexedDB(newComment);
+          
+          return newComment;
+        }
+      }
+      
+      // Si hors ligne, stocker temporairement dans IndexedDB
+      // avec un flag pour synchroniser plus tard
+
+      const tempComment = {
+        ...commentData,
+        id: `temp_${Date.now()}`,
+        _needsSync: true,
+        _syncAction: 'create'
+      };
+      
+      await saveCommentToIndexedDB(tempComment);
+      return tempComment;
+    } catch (error) {      
+      console.error('Erreur lors de la création du commentaire:', error);
+      throw error;
+    }
+  },
+  
+  // Supprimer un commentaire
+  async delete(id) {
+    try {      
+      if (isOnline()) {
+        const response = await fetch(`/api/commentaires/${id}`, {
+          method: 'DELETE',
+        });
+        
+        if (response.ok) {
+          // Supprimer de IndexedDB
+          await deleteCommentFromIndexedDB(id);
+          return true;
+        }
+      }
+      
+      // Si hors ligne, marquer pour suppression dans IndexedDB
+      const existingComment = await getCommentFromIndexedDB(id);
+      if (existingComment) {
+        const markedComment = {
+          ...existingComment,
+          _needsSync: true,
+          _syncAction: 'delete'
+        };
+        
+        await saveCommentToIndexedDB(markedComment);
+        return true;
+      }
+      
+      return false;
+    } catch (error) {
+      console.error(`Erreur lors de la suppression du commentaire ${id}:`, error);
+      throw error;
+    }
+  }
+};

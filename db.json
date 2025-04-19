@@ -1,0 +1,180 @@
+{
+  "blogs": [
+    {
+      "id": "1",
+      "Titre": "Blog 1",
+      "auteur": "John Doe",
+      "date": "01/01/2023",
+      "content": "Some quick example text to build on the card title and make up the bulk of the card's content.",
+      "image": "../Images/m.jpg"
+    },
+    {
+      "id": "2",
+      "Titre": "Blog 2",
+      "auteur": "John Doe",
+      "date": "01/01/2023",
+      "content": "Contenu du blog 1",
+      "image": "../Images/m.jpg"
+    },
+    {
+      "id": "3",
+      "Titre": "Blog 3",
+      "auteur": "John Doe",
+      "date": "01/01/2023",
+      "content": "Contenu du blog 1",
+      "image": "../Images/m.jpg"
+    },
+    {
+      "id": "4",
+      "Titre": "Blog 4",
+      "auteur": "John Doe",
+      "date": "01/01/2023",
+      "content": "Contenu du blog 1",
+      "image": "../Images/m.jpg"
+    },
+    {
+      "id": "5",
+      "Titre": "Blog 5",
+      "auteur": "John Doe",
+      "date": "01/01/2023",
+      "content": "Contenu du blog 1",
+      "image": "../Images/m.jpg"
+    },
+    {
+      "id": "6",
+      "Titre": "Blog 6",
+      "auteur": "John Doe",
+      "date": "01/01/2023",
+      "content": "Contenu du blog 1",
+      "image": "../Images/m.jpg"
+    },
+    {
+      "id": "7",
+      "Titre": "Blog 7",
+      "auteur": "John Doe",
+      "date": "01/01/2023",
+      "content": "Contenu du blog 1",
+      "image": "../Images/m.jpg"
+    },
+    {
+      "id": "c9f3",
+      "Titre": "Test1",
+      "auteur": "Nathanielle",
+      "date": "22/03/2025",
+      "content": "Je crois beaucoup que je mérites mieux comme note Kim!",
+      "image": "../Images/m.jpg"
+    },
+    {
+      "id": "2af8",
+      "Titre": "Test1",
+      "auteur": "Nathanielle",
+      "date": "09/04/2025",
+      "content": "pier-luk mon ami ses le meilleur de tous les personnes au monde entier",
+      "image": "./m.jpg"
+    },
+    {
+      "id": "6321",
+      "Titre": "Nouveau dire wolf",
+      "auteur": "william",
+      "date": "10/04/2025",
+      "content": "les loups on ete ressusiter yeahhh",
+      "image": "./m.jpg"
+    }
+  ],
+  "commmentaire": [
+    {
+      "id": "1",
+      "publication lier": "Blog 1",
+      "date": "01/01/2023",
+      "contenu": "je suis un commentaire"
+    },
+    {
+      "id": "2",
+      "publication lier": "Blog 2",
+      "date": "01/01/2023",
+      "contenu": "je veux mourir"
+    },
+    {
+      "id": "3",
+      "publication lier": "Blog 3",
+      "date": "01/01/2023",
+      "contenu": "je deteste ce lab"
+    },
+    {
+      "id": "4",
+      "publication lier": "Blog 4",
+      "date": "01/01/2023",
+      "contenu": "le web c'est le fun mais pas trop souvent"
+    },
+    {
+      "id": "5",
+      "publication lier": "Blog 5",
+      "date": "01/01/2023",
+      "contenu": "je vois l'obscurite dans le tunel"
+    },
+    {
+      "id": "6",
+      "publication lier": "Blog 6",
+      "date": "01/01/2023",
+      "contenu": "meme gollum est un homme"
+    },
+    {
+      "id": "7",
+      "publication lier": "Blog 7",
+      "date": "01/01/2023",
+      "contenu": "Pourquoi la mort est-elle si belle ?"
+    },
+    {
+      "id": "8",
+      "publication lier": "Blog 8",
+      "date": "01/01/2023",
+      "contenu": "Aragorn est le roi des hommes"
+    },
+    {
+      "id": "9",
+      "publication lier": "Blog 8",
+      "date": "01/01/2023",
+      "contenu": "Smaug et le dragon sont des monstres"
+    },
+    {
+      "id": "10",
+      "publication lier": "Blog 9",
+      "date": "01/01/2023",
+      "contenu": "je suis desperere"
+    },
+    {
+      "id": "1740625759408",
+      "publication lier": "Blog 1",
+      "date": "26/02/2025",
+      "contenu": "rbrdgdggrg"
+    },
+    {
+      "id": "1742693686156",
+      "publication lier": "Blog 2",
+      "date": "22/03/2025",
+      "contenu": "Je crois en la théorie que la terre est plate",
+      "author": "Anonyme"
+    },
+    {
+      "id": "1742846025952",
+      "publication lier": "Blog 1",
+      "date": "24/03/2025",
+      "contenu": "je suis un commentaire will va y arriver je crois en lui",
+      "author": "Anonyme"
+    },
+    {
+      "id": "1743773787190",
+      "publication lier": "Blog c9f3",
+      "date": "04/04/2025",
+      "contenu": "bob\n",
+      "author": "Anonyme"
+    },
+    {
+      "id": "1744327942765",
+      "publication lier": "Blog c9f3",
+      "date": "10/04/2025",
+      "contenu": "william a de la misere avec next.js",
+      "author": "Anonyme"
+    }
+  ]
+}
